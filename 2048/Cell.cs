@@ -46,7 +46,7 @@ namespace _2048
 
         public void PrintCell()
         {
-            // If the cell is empty print 4 blank spaces with gray BG, else print the number and blank spaces until the digits and spaces sum is 4 
+            // Print max 4 digits, if there are less fill with gray blanks 
             if(this.number == 0)
             {
                 Console.BackgroundColor = ConsoleColor.DarkGray;

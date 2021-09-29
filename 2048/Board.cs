@@ -61,12 +61,15 @@ namespace _2048
         }
 
         /*
-         * Move Algorithm:
-         * Loop over every cell in current row / col except the first one / last (depends on the direction).
-         * Check if the index in the current row / col isn't already joined in the joined array
-         * If not, join, else don't join just remove spaces.
+         * MoveBoard Algorithm:
+         * Loop over every cell in current row/col.
+         * If the movement is from the last index to the first one (Up and Left) in the relative dimension start in the second index,
+         * and in each third loop iteration move the cell as closest as possible to the other side of the row/col,
+         * without double additions of cells in the same movement, and remove spaces.
+         * If a movement happened change moved to true and if an addition happened add to score.
+         * Else, start in the second to last index, to the first index, and do the same.
          */
-        public Tuple<bool, int> Move(char direction)
+        public Tuple<bool, int> MoveBoard(char direction)
         {
             bool moved = false;
             int score = 0;

@@ -13,24 +13,26 @@ namespace _2048
             // If the user input made a movement 
             Board board = new Board();
             int score = 0;
+            PrintWelcome(); 
             board.PrintBoard();
             Console.WriteLine("Score: " + score);
             while (true) {
                 char nextMove = ReadDirectionInput();
-                var movement = board.Move(nextMove);
+                var movement = board.MoveBoard(nextMove);
 
                 if(movement.Item1)
                 {
                     Console.Clear();
                     score += movement.Item2;
                     board.SetRandomCell();
+                    PrintWelcome();
                     board.PrintBoard();
                     Console.WriteLine("Score: " + score);
                 }
 
                 if (IsWin(board))
                 {
-                    Console.WriteLine("You Won!");
+                    PrintWin();
                     break;
                 }
 
@@ -38,7 +40,7 @@ namespace _2048
                 {
                     if (IsLoss(board))
                     {
-                        Console.WriteLine("You Lost!");
+                        PrintLoss();
                         break;
                     }
                 }
@@ -122,18 +124,58 @@ namespace _2048
         public static bool IsWin(Board board)
         {
             Cell[,] board_arr = board.GetBoard();
+            bool win = false;
             for (int i = 0; i < board_arr.GetLength(0); i++)
             {
                 for(int j = 0; j < board_arr.GetLength(1); j++)
                 {
                     if(board_arr[i, j].GetNumber() == 2048)
                     {
-                        return true;
+                        win = true;
                     }
                 }
             }
 
-            return false;
+            return win;
+        }
+
+        public static void PrintWelcome()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkYellow;
+            Console.WriteLine(@" __          __    _                                _           ___    ___   _  _    ___   _  _  _ 
+ \ \        / /   | |                              | |         |__ \  / _ \ | || |  / _ \ | || || |
+  \ \  /\  / /___ | |  ___  ___   _ __ ___    ___  | |_  ___      ) || | | || || |_| (_) || || || |
+   \ \/  \/ // _ \| | / __|/ _ \ | '_ ` _ \  / _ \ | __|/ _ \    / / | | | ||__   _|> _ < | || || |
+    \  /\  /|  __/| || (__| (_) || | | | | ||  __/ | |_| (_) |  / /_ | |_| |   | | | (_) ||_||_||_|
+     \/  \/  \___||_| \___|\___/ |_| |_| |_| \___|  \__|\___/  |____| \___/    |_|  \___/ (_)(_)(_)
+                                                                                                   
+                                                                                                   ");
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        public static void PrintWin() {
+            Console.ForegroundColor = ConsoleColor.DarkGreen;
+            Console.WriteLine(@"
+_____.___.                 __      __               ._.._.._.
+\__  |   |  ____   __ __  /  \    /  \ ____    ____ | || || |
+ /   |   | /  _ \ |  |  \ \   \/\/   //  _ \  /    \| || || |
+ \____   |(  <_> )|  |  /  \        /(  <_> )|   |  \\| \| \|
+ / ______| \____/ |____/    \__/\  /  \____/ |___|  /__ __ __
+ \/                              \/               \/ \/ \/ \/
+");
+            Console.ForegroundColor = ConsoleColor.Gray;
+        }
+
+        public static void PrintLoss()
+        {
+            Console.ForegroundColor = ConsoleColor.DarkRed;
+            Console.WriteLine(@"_____.___.                .____                     __   ._.._.._.
+\__  |   |  ____   __ __  |    |     ____   _______/  |_ | || || |
+ /   |   | /  _ \ |  |  \ |    |    /  _ \ /  ___/\   __\| || || |
+ \____   |(  <_> )|  |  / |    |___(  <_> )\___ \  |  |   \| \| \|
+ / ______| \____/ |____/  |_______ \\____//____  > |__|   __ __ __
+ \/                               \/           \/         \/ \/ \/");
+            Console.ForegroundColor = ConsoleColor.Gray;
         }
     }
 }
