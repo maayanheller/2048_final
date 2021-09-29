@@ -12,17 +12,20 @@ namespace _2048
         {
             // If the user input made a movement 
             Board board = new Board();
-
+            int score = 0;
             board.PrintBoard();
+            Console.WriteLine("Score: " + score);
             while (true) {
                 char nextMove = ReadDirectionInput();
+                var movement = board.Move(nextMove);
 
-                bool moved = board.Move(nextMove);
-
-                if(moved)
+                if(movement.Item1)
                 {
+                    Console.Clear();
+                    score += movement.Item2;
                     board.SetRandomCell();
                     board.PrintBoard();
+                    Console.WriteLine("Score: " + score);
                 }
 
                 if (IsWin(board))
@@ -101,17 +104,19 @@ namespace _2048
         public static bool IsLoss(Board board)
         {
             Cell[,] board_arr = board.GetBoard();
+            bool loss = true;
             for(int i = 0; i < board_arr.GetLength(0) - 1; i++)
             {
                 for(int j = 0; j < board_arr.GetLength(1) - 1; j++)
                 {
                     if(board_arr[i, j].GetNumber() == board_arr[i, j + 1].GetNumber() || board_arr[i, j].GetNumber() == board_arr[i + 1, j].GetNumber())
                     {
-                        return true;
+                        loss = false;
+                        break;
                     }
                 }
             }
-            return false;
+            return loss;
         }
 
         public static bool IsWin(Board board)

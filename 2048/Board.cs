@@ -66,9 +66,10 @@ namespace _2048
          * Check if the index in the current row / col isn't already joined in the joined array
          * If not, join, else don't join just remove spaces.
          */
-        public bool Move(char direction)
+        public Tuple<bool, int> Move(char direction)
         {
             bool moved = false;
+            int score = 0;
             bool[] joined = new bool[4] { false, false, false, false };
 
             switch (direction)
@@ -89,6 +90,7 @@ namespace _2048
                                         this.board[z, j].ResetNumber();
                                         this.board[z - 1, j].IncreaseCellNumber();
                                         this.emptyCellsCounter++;
+                                        score += this.board[z - 1, j].GetNumber();
                                         moved = true;
                                         joined[z] = false;
                                         joined[z - 1] = true;
@@ -120,6 +122,7 @@ namespace _2048
                                         this.board[z, j].ResetNumber();
                                         this.board[z + 1, j].IncreaseCellNumber();
                                         this.emptyCellsCounter++;
+                                        score += this.board[z + 1, j].GetNumber();
                                         moved = true;
                                         joined[z] = false;
                                         joined[z + 1] = true;
@@ -151,6 +154,7 @@ namespace _2048
                                         this.board[i, z].ResetNumber();
                                         this.board[i, z - 1].IncreaseCellNumber();
                                         this.emptyCellsCounter++;
+                                        score += this.board[i, z - 1].GetNumber();
                                         moved = true;
                                         joined[z] = false;
                                         joined[z - 1] = true;
@@ -184,6 +188,7 @@ namespace _2048
                                         this.board[i, z].ResetNumber();
                                         this.board[i, z + 1].IncreaseCellNumber();
                                         this.emptyCellsCounter++;
+                                        score += this.board[i, z + 1].GetNumber();
                                         moved = true;
                                         joined[z] = false;
                                         joined[z + 1] = true;
@@ -201,7 +206,7 @@ namespace _2048
                     }
                 break;
             }
-            return moved;
+            return Tuple.Create(moved, score);
         }
 
         public void PrintBoard()
